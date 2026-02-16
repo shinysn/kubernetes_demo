@@ -1,15 +1,13 @@
-FROM centos:7
+FROM node:18-alpine
 
-MAINTAINER r.u.s.h.sharninanthika@gmail.com
-RUN yum install -y httpd \
-zip\
-unzip
-ADD https://www.free-css.com/assets/files/free-css-templates/download/page254/photogenic.zip /var/www/html/
+WORKDIR /app
 
-WORKDIR /var/www/html/
+COPY package*.json ./
+RUN npm install
 
-RUN unzip photogenic.zip
-RUN cp -rvf photogenic/ *.
-RUN rm -rf photogenic photogenic.zip
-CMD ["/usr/sbin/httpd","-D", "FOREGROUND"]
-EXPOSE 80
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
+
